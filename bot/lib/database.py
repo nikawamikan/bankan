@@ -78,7 +78,6 @@ class DBConnection:
             sql = f"insert into {table} values" + value_str
         else:
             sql = f"insert into {table}({columns}) values" + value_str
-
         self.execute(
             sql=sql,
             values=(val for sub in values for val in sub),

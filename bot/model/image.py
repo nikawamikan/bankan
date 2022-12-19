@@ -95,13 +95,13 @@ class BaseImages:
             return await draw.get_discord_file()
 
 
-def add_image(key: str, image_path: str, font_id: int, base_positon: tuple[int], font_size: int, max_width: int, max_vertical: int):
+def add_image(key: str, image_path: str, font_id: int, base_positon: tuple[int], font_size: int, max_width: int, max_vertical: int, color_id: int):
     with DBConnection() as db:
         db.insert(
             table="image_datas",
-            columns="image_path, font_size, font_id, x, y, max_width, max_vertical",
+            columns="image_path, font_size, font_id, x, y, max_width, max_vertical, color_id",
             values=((image_path, font_size, font_id,
-                    base_positon[0], base_positon[1], max_width, max_vertical),)
+                    base_positon[0], base_positon[1], max_width, max_vertical, color_id),)
         )
 
         index = db.last_insert_id()
@@ -122,7 +122,8 @@ def add_image(key: str, image_path: str, font_id: int, base_positon: tuple[int],
             base_positon=base_positon,
             font_size=font_size,
             max_width=max_width,
-            max_vertical=max_vertical
+            max_vertical=max_vertical,
+            font_color=Colors.get_color(color_id=color_id)
         )
 
 

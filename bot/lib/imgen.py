@@ -65,8 +65,8 @@ class DrawText:
 
         y = self.base_position[1] + (self.max_vertical - vertical_size)/2
 
-        x = self.base_position[0] + (font_size * (lines-1))/2
-
+        x = self.base_position[0] + self.max_width/2
+        x += (font_size * (lines-1))/2
         for v in texts:
             self.draw.text(
                 xy=(x, y),
