@@ -63,7 +63,7 @@ class ComicCog(commands.Cog):
         else:
             await ctx.response.send_message(content=mention.mention, file=await base_image.draw())
 
-    @comic.command(name="bankan", description="おさとうちゃんに色々しゃべらせるよ")
+    @comic.command(name="osato", description="おさとうちゃんに色々しゃべらせるよ")
     async def bankan(
         self,
         ctx: discord.ApplicationContext,
