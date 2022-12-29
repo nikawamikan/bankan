@@ -5,6 +5,8 @@ from discord import File
 
 
 class DrawText:
+    """画像に対して指定座標にテキストを合成するためのクラスです。with句によって利用されることが好ましいです。
+    """
 
     def __init__(self, image_path: str, font_path: str, font_color: tuple[int, int, int, int], base_positon: tuple[int], font_size: int, max_width: int, max_vertical: int, message: str):
         self.image = Image.open(fp=image_path)
@@ -25,12 +27,9 @@ class DrawText:
     def __exit__(self, exception_type, exception_value, traceback):
         self.image.close()
 
-    async def draw_text(self, text: str, position: tuple[int, int]):
-        x = self.base_position[0] + position[0]
-        y = self.base_position[1] + position[1]
-        self.draw.text((x, y), text=text, fill=self.font_color)
-
-    async def draw_multitext(self):
+    async def draw_multitext(self) -> None:
+        """縦方向に対して複数行のテキストを合成します。
+        """
         font_size = self.width
         texts = self.message.split("\n")
         lines = len(texts)
@@ -81,13 +80,23 @@ class DrawText:
             x -= font_size
 
     async def show(self):
+        """画像を表示します。これはデバッグ用であるため、本番環境で利用は推奨されません。
+        """
         self.image.show()
 
-    async def get_discord_file(self):
+    async def get_discord_file(self) -> File:
+        """py-cordで利用されるfileオブジェクトに変換します。
+
+        Returns:
+            File: discord.Fileオブジェクトに該当するもの
+        """
         fileio = BytesIO()
         self.image.save(fileio, format="png")
         fileio.seek(0)
         return File(fp=fileio, filename="image.png")
 
     async def save(self, file_path: str):
+        """画像をファイルを保存します。
+        Args:
+            file_path (str): ファイルのパスを指定します。png形式で保存するため名称にpngが含まれている必要があります。"""
         self.image.save(fp=file_path, format="png")
