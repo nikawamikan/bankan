@@ -59,9 +59,9 @@ class ComicCog(commands.Cog):
             base_image.message = message.replace("  ", "\n")
 
         if mention == None:
-            await ctx.response.send_message(file=await base_image.draw())
+            await ctx.response.send_message(file=await base_image.get_discord_file())
         else:
-            await ctx.response.send_message(content=mention.mention, file=await base_image.draw())
+            await ctx.response.send_message(content=mention.mention, file=await base_image.get_discord_file())
 
     # @comic.command(name="add", description="画像を追加します")
     # async def add(

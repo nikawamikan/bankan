@@ -25,7 +25,7 @@ class MessageInput(Modal):
     async def callback(self, interaction: Interaction):
         message = self.children[0].value
         self.base_image.message = message
-        file: File = await self.base_image.draw()
+        file: File = await self.base_image.get_discord_file()
         if self.mention == None:
             await interaction.response.send_message(file=file)
         else:

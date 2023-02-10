@@ -92,7 +92,15 @@ class BaseImages:
             message=self.message
         ) as draw:
             await draw.draw_multitext()
-            return await draw.get_discord_file()
+            return draw
+
+    async def get_bytes(self):
+        data = await self.draw()
+        return await data.get_bytes()
+
+    async def get_discord_file(self):
+        draw = await self.draw()
+        return await draw.get_discord_file()
 
 
 def add_image(key: str, image_path: str, font_id: int, base_positon: tuple[int], font_size: int, max_width: int, max_vertical: int, color_id: int):

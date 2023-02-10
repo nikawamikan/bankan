@@ -83,11 +83,14 @@ class DrawText:
     async def show(self):
         self.image.show()
 
-    async def get_discord_file(self):
+    async def get_bytes(self):
         fileio = BytesIO()
         self.image.save(fileio, format="png")
         fileio.seek(0)
-        return File(fp=fileio, filename="image.png")
+        return fileio
+
+    async def get_discord_file(self):
+        return File(fp=await self.get_bytes(), filename="image.png")
 
     async def save(self, file_path: str):
         self.image.save(fp=file_path, format="png")
