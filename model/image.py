@@ -1,10 +1,18 @@
 from copy import copy
 from lib.database import DBConnection
 from lib.imgen import DrawText
-from discord import File, OptionChoice
+from discord import OptionChoice
 
 
 def color_to_tuple(color: int) -> tuple[int, int, int, int]:
+    """16進数のカラーコードをTupleのカラー形式に変更します。
+
+    Args:
+        color (int): 16進数で表されるカラーコード
+
+    Returns:
+        tuple[int, int, int, int]: 色のTuple
+    """
     return (
         color >> 16,
         (color & 0xFF00) >> 8,
@@ -14,12 +22,15 @@ def color_to_tuple(color: int) -> tuple[int, int, int, int]:
 
 
 class Color:
+    """Colorの構造体"""
+
     def __init__(self, value: tuple[int, int, int, int], name: str) -> None:
         self.value = value
         self.name = name
 
 
 class Colors:
+    """Color構造体を取得などするためのクラスです。"""
     __DATA: dict[int: Color] = {}
     with DBConnection(False) as db:
         data = db.select(
@@ -30,26 +41,45 @@ class Colors:
         }
 
     def get_color_options() -> list[OptionChoice]:
+        # TODO: 色の集合を選択できるようにする必要がありそうなので検討
+        """py-cordで利用するための選択肢のリストを返却します。
+
+        Returns:
+            list[OptionChoice]: 色の選択肢
+        """
         return [
             OptionChoice(name=v.name, value=k) for k, v in Colors.__DATA.items()
         ]
 
-    def get_color(color_id: int):
+    def get_color(color_id: int) -> tuple[int, int, int, int]:
+        """色のtupleを返却します
+
+        Args:
+            color_id (int): 色のID
+
+        Returns:
+            tuple[int,int,int,int]: 色のtuple
+        """
         if color_id not in Colors.__DATA:
             return None
         return Colors.__DATA[color_id].value
 
 
 class Font:
+    """Fontの構造体"""
+
     def __init__(self, value: str, name: str) -> None:
         self.value = value
         self.name = name
 
 
 class Fonts:
+    """
 
+    Returns:
+        _type_: _description_
+    """
     __DATA: dict[int: Font] = {}
-
     with DBConnection(False) as db:
         data = db.select(
             sql="select font_id, font_path, name from fonts"
