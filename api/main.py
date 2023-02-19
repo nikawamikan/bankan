@@ -4,7 +4,7 @@ from model.image import get_image
 app = FastAPI()
 
 
-@app.get("/{char_name:str}")
+@app.get("/{char_name:str}.png")
 async def get_char_image(char_name: str,  message: str):
     if char_name == "bankan":
         data = await get_image(image_id=30, message=message)
@@ -12,4 +12,5 @@ async def get_char_image(char_name: str,  message: str):
         data = await get_image(image_id=30, message=message)
     else:
         raise ValueError("is not a valid")
-    return StreamingResponse(content=await data.get_discord_file(), media_type="png")
+
+    return StreamingResponse(content=await data.get_bytes(), media_type="image/png")

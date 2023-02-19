@@ -11,6 +11,7 @@ services:
       - ./lib:/usr/src/bot/lib:ro
       - ./model:/usr/src/bot/model:ro
       - ./image:/usr/src/bot/image:rw
+      - ./font:/usr/src/bot/font:ro
     environment:
       - TOKEN=${TOKEN}
       - GUILDS=${GUILDS}
@@ -45,13 +46,14 @@ services:
       - default
 
 
-  api:
+  bankanapi:
     build: ./api
     volumes:
       - ./api:/usr/src/api:rw
       - ./lib:/usr/src/api/lib:ro
       - ./model:/usr/src/api/model:ro
       - ./image:/usr/src/api/image:rw
+      - ./font:/usr/src/api/font:ro
     environment:
       - TOKEN=${TOKEN}
       - GUILDS=${GUILDS}

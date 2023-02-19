@@ -125,8 +125,18 @@ class BaseImages:
             return draw
 
     async def get_bytes(self):
-        data = await self.draw()
-        return await data.get_bytes()
+        with DrawText(
+            image_path=self.image_path,
+            font_path=self.font_path,
+            font_color=self.font_color,
+            base_positon=self.base_position,
+            font_size=self.font_size,
+            max_width=self.max_width,
+            max_vertical=self.max_vertical,
+            message=self.message
+        ) as draw:
+            await draw.draw_multitext()
+            return await draw.get_bytes()
 
     async def get_discord_file(self):
         draw = await self.draw()
