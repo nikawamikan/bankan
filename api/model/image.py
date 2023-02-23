@@ -108,20 +108,6 @@ class BaseImages:
         self.max_vertical = max_vertical
         self.message: str = None
 
-    async def draw(self):
-        with DrawText(
-            image_path=self.image_path,
-            font_path=self.font_path,
-            font_color=self.font_color,
-            base_positon=self.base_position,
-            font_size=self.font_size,
-            max_width=self.max_width,
-            max_vertical=self.max_vertical,
-            message=self.message
-        ) as draw:
-            await draw.draw_multitext()
-            return draw
-
     async def get_bytes(self):
         with DrawText(
             image_path=self.image_path,
@@ -135,10 +121,6 @@ class BaseImages:
         ) as draw:
             await draw.draw_multitext()
             return await draw.get_bytes()
-
-    async def get_discord_file(self):
-        draw = await self.draw()
-        return await draw.get_discord_file()
 
 
 def add_image(key: str, image_path: str, font_id: int, base_positon: tuple[int], font_size: int, max_width: int, max_vertical: int, color_id: int):

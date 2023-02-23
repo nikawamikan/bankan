@@ -1,13 +1,22 @@
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
-from discord import File
 
 
 class DrawText:
     """画像に対して指定座標にテキストを合成するためのクラスです。with句によって利用されることが好ましいです。
     """
 
-    def __init__(self, image_path: str, font_path: str, font_color: tuple[int, int, int, int], base_positon: tuple[int], font_size: int, max_width: int, max_vertical: int, message: str):
+    def __init__(
+        self,
+        image_path: str,
+        font_path: str,
+        font_color: tuple[int, int, int, int],
+        base_positon: tuple[int],
+        font_size: int,
+        max_width: int,
+        max_vertical: int,
+        message: str
+    ) -> None:
         self.image = Image.open(fp=image_path)
         self.draw = ImageDraw.Draw(self.image)
         self.width = font_size
@@ -23,7 +32,7 @@ class DrawText:
     def __enter__(self):
         return self
 
-    def __exit__(self, exception_type, exception_value, traceback):
+    def __exit__(self, exception_type, exception_value, traceback) -> None:
         self.image.close()
 
     async def draw_multitext(self) -> None:
@@ -78,21 +87,18 @@ class DrawText:
             )
             x -= font_size
 
-    async def show(self):
+    async def show(self) -> None:
         """画像を表示します。これはデバッグ用であるため、本番環境で利用は推奨されません。
         """
         self.image.show()
 
-    async def get_bytes(self):
+    async def get_bytes(self) -> bytes:
         fileio = BytesIO()
         self.image.save(fileio, format="png")
         fileio.seek(0)
-        return fileio
+        return fileio.getvalue()
 
-    async def get_discord_file(self):
-        return File(fp=await self.get_bytes(), filename="image.png")
-
-    async def save(self, file_path: str):
+    async def save(self, file_path: str) -> None:
         """画像をファイルを保存します。
         Args:
             file_path (str): ファイルのパスを指定します。png形式で保存するため名称にpngが含まれている必要があります。"""
