@@ -1,7 +1,6 @@
 from copy import copy
-from lib.database import DBConnection
-from lib.imgen import DrawText
-from discord import OptionChoice
+from api.lib.database import DBConnection
+from api.lib.imgen import DrawText
 
 
 def color_to_tuple(color: int) -> tuple[int, int, int, int]:
@@ -40,16 +39,15 @@ class Colors:
             v[0]: Color(color_to_tuple(v[1]), v[2]) for v in data
         }
 
-    def get_color_options() -> list[OptionChoice]:
-        # TODO: 色の集合を選択できるようにする必要がありそうなので検討
-        """py-cordで利用するための選択肢のリストを返却します。
+    def get_color_options() -> dict[str, tuple[int, int, int, int]]:
+        """色彩名をKeyとしたdictを返却します
 
         Returns:
-            list[OptionChoice]: 色の選択肢
+            dict[str, tuple[int, int, int, int]]: 色のdict
         """
-        return [
-            OptionChoice(name=v.name, value=k) for k, v in Colors.__DATA.items()
-        ]
+        return {
+            v.name: k for k, v in Colors.__DATA.items()
+        }
 
     def get_color(color_id: int) -> tuple[int, int, int, int]:
         """色のtupleを返却します
@@ -88,10 +86,10 @@ class Fonts:
             v[0]: Font(v[1], v[2]) for v in data
         }
 
-    def get_font_options() -> list[OptionChoice]:
-        return [
-            OptionChoice(name=v.name, value=k) for k, v in Fonts.__DATA.items()
-        ]
+    def get_font_options() -> dict[str, str]:
+        return {
+            v.name: k for k, v in Fonts.__DATA.items()
+        }
 
     def get_font(font_id: int):
         if font_id not in Fonts.__DATA:

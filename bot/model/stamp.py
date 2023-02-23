@@ -1,5 +1,5 @@
 from discord import Interaction, InputTextStyle, File, SelectOption
-from lib.database import DBConnection
+from api.lib.database import DBConnection
 from typing import Optional
 
 

@@ -27,8 +27,8 @@ async def test(ctx: discord.ApplicationContext):
 
 bot.load_extensions(
     "cogs.comic",
-    "cogs.stamp",
-    "cogs.nanka",
+    # "cogs.stamp",
+    # "cogs.nanka",
     store=False
 )
 

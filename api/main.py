@@ -1,6 +1,7 @@
-from fastapi.responses import StreamingResponse
+from fastapi.responses import Response
 from fastapi import FastAPI
-from model.image import get_image
+from model.image import get_image, Colors, Fonts
+
 from collections import OrderedDict
 from hashlib import md5
 
@@ -17,6 +18,18 @@ def get_hash_int(texts: list[str]) -> int:
 app = FastAPI()
 
 
+# jsonを出力するとこ
+@app.get("/color.json")
+async def get_color_json():
+    return Colors.get_color_options()
+
+
+@app.get("/font.json")
+async def get_font_json():
+    return Fonts.get_font_options()
+
+
+# 画像よぶとこ
 @app.get("/{char_name:str}.png")
 async def get_char_image(char_name: str,  message: str):
     key = get_hash_int([char_name, message])
@@ -24,6 +37,8 @@ async def get_char_image(char_name: str,  message: str):
     if key in CACHE_IMAGES:
         byte_data = CACHE_IMAGES[key]
     else:
+        # ここの処理をif文からdictから検索する方法に変更する
+
         if char_name == "bankan":
             data = await get_image(image_id=30, message=message)
         elif char_name == "gomi":
@@ -37,4 +52,4 @@ async def get_char_image(char_name: str,  message: str):
         if len(CACHE_IMAGES) > CACHE_MAX_SIZE:
             CACHE_IMAGES.popitem(False)
 
-    return StreamingResponse(content=byte_data, media_type="image/png")
+    return Response(content=byte_data, media_type="image/png")
