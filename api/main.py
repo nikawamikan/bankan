@@ -28,16 +28,31 @@ app = FastAPI()
 # jsonを出力するとこ
 @app.get("/color.json")
 async def get_color_json():
+    """利用可能な色を取得します。
+
+    Returns:
+        Response: json
+    """
     return Colors.get_color_options()
 
 
 @app.get("/font.json")
 async def get_font_json():
+    """利用可能なフォント一覧を取得します。
+
+    Returns:
+        Response: json
+    """
     return Fonts.get_font_options()
 
 
 @app.get("/character.json")
 async def get_character_json():
+    """キャラクター名一覧を取得します。
+
+    Returns:
+        Response: json
+    """
     return CHAR_NAMES
 
 
@@ -50,10 +65,10 @@ async def get_char_image(char_name: str,  message: str = "なんかよう？"):
         message (str, optional): _description_. Defaults to "なんかよう？".
 
     Raises:
-        ValueError: _description_
+        ValueError: キャラクター名が存在しない場合にエラーを返す
 
     Returns:
-        _type_: _description_
+        Response: image/png
     """
     key = get_hash_int([char_name, message])
 
