@@ -1,6 +1,6 @@
 from discord.ui import Modal, InputText
 from discord import Interaction, InputTextStyle, File, Member, Role
-from model import image
+from api.model import image
 from typing import Union
 
 Colors = image.Colors

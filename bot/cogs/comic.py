@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord import SlashCommandGroup, Option, SlashCommandOptionType
 from view.comic import MessageInput
-from model import image
+from api.model import image
 Fonts = image.Fonts
 Colors = image.Colors
 
