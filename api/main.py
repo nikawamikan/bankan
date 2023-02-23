@@ -31,7 +31,7 @@ async def get_font_json():
 
 # 画像よぶとこ
 @app.get("/{char_name:str}.png")
-async def get_char_image(char_name: str,  message: str):
+async def get_char_image(char_name: str,  message: str = "なんかよう？"):
     key = get_hash_int([char_name, message])
 
     if key in CACHE_IMAGES:

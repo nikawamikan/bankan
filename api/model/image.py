@@ -1,6 +1,6 @@
 from copy import copy
-from api.lib.database import DBConnection
-from api.lib.imgen import DrawText
+from lib.database import DBConnection
+from lib.imgen import DrawText
 
 
 def color_to_tuple(color: int) -> tuple[int, int, int, int]:
