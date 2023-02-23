@@ -9,6 +9,13 @@ from hashlib import md5
 CACHE_MAX_SIZE = 500
 CACHE_IMAGES = OrderedDict()
 
+NAME_DICT = {
+    "bankan": 30,  # ばんかんちゃん
+    # "gomi": 31,  # ごみにぃとちゃん
+}
+
+CHAR_NAMES = [k for k in NAME_DICT.keys()]
+
 
 def get_hash_int(texts: list[str]) -> int:
     result = int(md5("".join(texts).encode()).hexdigest(), 16)
@@ -29,20 +36,32 @@ async def get_font_json():
     return Fonts.get_font_options()
 
 
-# 画像よぶとこ
+@app.get("/character.json")
+async def get_character_json():
+    return CHAR_NAMES
+
+
 @app.get("/{char_name:str}.png")
 async def get_char_image(char_name: str,  message: str = "なんかよう？"):
+    """キャラクター名を指定してその画像をベースにメッセージを喋らせます
+
+    Args:
+        char_name (str): キャラクター名(指定キャラクター名)
+        message (str, optional): _description_. Defaults to "なんかよう？".
+
+    Raises:
+        ValueError: _description_
+
+    Returns:
+        _type_: _description_
+    """
     key = get_hash_int([char_name, message])
 
     if key in CACHE_IMAGES:
         byte_data = CACHE_IMAGES[key]
     else:
-        # ここの処理をif文からdictから検索する方法に変更する
-
-        if char_name == "bankan":
-            data = await get_image(image_id=30, message=message)
-        elif char_name == "gomi":
-            data = await get_image(image_id=30, message=message)
+        if char_name in NAME_DICT:
+            data = await get_image(image_id=NAME_DICT[char_name], message=message)
         else:
             raise ValueError("is not a valid")
 
